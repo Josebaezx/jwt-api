@@ -1,10 +1,10 @@
-package com.josebaezx.pruebasr;
+package com.josebaezx.pruebassr;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PruebaSsrApplicationTests {
+class pruebassr {
 
 	@Test
 	void contextLoads() {
