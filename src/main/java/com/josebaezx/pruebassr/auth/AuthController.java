@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @GetMapping("/login")
+    public String loginGet(){
+        return "Bienvenido al LOGIN";
+    }
     @PostMapping("/login")
     public String login(){
-        return "Bienvenido al LOGIN";
+        return "Datos enviados para logueo";
     }
 
     @PostMapping("/registro")
