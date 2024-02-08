@@ -6,6 +6,7 @@ import com.josebaezx.pruebassr.auth.model.dto.RegisterRequest;
 import com.josebaezx.pruebassr.auth.model.entity.User;
 import com.josebaezx.pruebassr.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
     public AuthResponse login(LoginRequest request) {
         return null;
     }
@@ -21,9 +23,9 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
-                .firstname(request.getFirstName())
-                .lastname(request.getLastName())
-                .password(request.getPassword())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .salt(request.getSalt())
                 .hash(request.getHash())
                 .role(request.getRole())

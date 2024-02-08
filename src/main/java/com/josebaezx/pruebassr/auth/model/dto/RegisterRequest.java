@@ -1,7 +1,6 @@
 package com.josebaezx.pruebassr.auth.model.dto;
 
 import com.josebaezx.pruebassr.auth.model.entity.Role;
-import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -16,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class RegisterRequest {
     private String username;
     private String password;
-    private String firstName;
-    private String LastName;
+    private String firstname;
+    private String Lastname;
     private String email;
     private String salt;
     private String hash;
