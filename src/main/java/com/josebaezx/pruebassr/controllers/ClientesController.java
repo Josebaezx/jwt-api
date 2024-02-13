@@ -3,13 +3,14 @@ package com.josebaezx.pruebassr.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.function.ServerRequest;
 
 @RestController
-@RequestMapping ("/clientes")
+@RequestMapping ("api/v1/clientes")
 public class ClientesController {
     @Autowired
     private RestTemplate restTemplate;
@@ -23,5 +24,17 @@ public class ClientesController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), Object.class);
 
+    }
+
+    @GetMapping("/demo")
+    public String demo(){
+        return "BIEVENIDO A DEMO SPRING SECURITY";
+
+    }
+
+    @PostMapping(value = "demo")
+    public String welcome()
+    {
+        return "Welcome from secure endpoint";
     }
 }
