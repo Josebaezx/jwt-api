@@ -9,4 +9,12 @@ public class MarvelApiApplication {
 		SpringApplication.run(MarvelApiApplication.class, args);
 	}
 
+//	@Bean
+//	public CommandLineRunner commandLineRunner(PasswordEncoder passwordEncoder){
+//		return args -> {
+//            System.out.println(passwordEncoder.encode("Admin++"));
+//			System.out.println(passwordEncoder.encode("User++"));
+//        };
+//	}
+
 }
