@@ -1,6 +1,7 @@
 package com.josebaezx.pruebassr.service;
 
 import com.josebaezx.pruebassr.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -39,5 +40,15 @@ public class JwtService {
     private Key generateKey() {
         byte[] keyByte = Decoders.BASE64.decode(PRIVATE_KEY);
         return Keys.hmacShaKeyFor(keyByte);
+    }
+
+    public String getSubjectFromJWT(String jwt) {
+        return extractAllClaims(jwt).getSubject();
+    }
+
+    private Claims extractAllClaims(String jwt) {
+        return Jwts.parser().setSigningKey(generateKey()).build()
+                .parseClaimsJws(jwt).getBody();
+
     }
 }
