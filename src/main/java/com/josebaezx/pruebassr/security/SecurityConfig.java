@@ -3,6 +3,8 @@ package com.josebaezx.pruebassr.security;
 import com.josebaezx.pruebassr.jwt.service.JwtUtiliyService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,14 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JWTAuthorizationFilter jwtAuthorizationFilter;
+    Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final JwtUtiliyService jwtUtilityService;
 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        logger.info("Starting securityFilterChain");
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest ->

@@ -20,6 +20,7 @@ import java.security.PublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.Date;
@@ -90,6 +91,6 @@ public class JwtUtiliyServiceImpl implements JwtUtiliyService {
         byte[] codecodKey = Base64.getDecoder().decode(publicKeyPEM);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
-        return keyFactory.generatePublic(new PKCS8EncodedKeySpec(codecodKey));
+        return keyFactory.generatePublic(new X509EncodedKeySpec(codecodKey));
     }
 }

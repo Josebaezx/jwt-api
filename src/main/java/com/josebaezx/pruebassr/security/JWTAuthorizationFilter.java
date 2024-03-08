@@ -1,5 +1,6 @@
 package com.josebaezx.pruebassr.security;
 
+import com.josebaezx.pruebassr.config.CorsConfig;
 import com.josebaezx.pruebassr.jwt.service.JwtUtiliyService;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -8,6 +9,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,10 +24,11 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
-
+    Logger logger = LoggerFactory.getLogger(CorsConfig.class);
     private final JwtUtiliyService jwtUtiliyService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        logger.info("Starting doFilterInternal");
         String header = request.getHeader("Authorization");
 
         if(header == null || !header.startsWith("Bearer ")) {
