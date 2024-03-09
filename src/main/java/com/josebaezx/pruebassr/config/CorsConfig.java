@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
     Logger logger = LoggerFactory.getLogger(CorsConfig.class);
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        logger.info("Starting CorsConfig");
+        logger.info("<!>Starting CorsConfig");
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

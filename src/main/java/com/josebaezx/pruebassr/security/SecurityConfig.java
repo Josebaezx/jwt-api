@@ -24,8 +24,9 @@ public class SecurityConfig {
     Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final JwtUtiliyService jwtUtilityService;
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        logger.info("Starting securityFilterChain");
+        logger.info("<!>Starting securityFilterChain");
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authRequest ->
