@@ -2,6 +2,8 @@ package com.josebaezx.pruebassr.auth.jwt;
 
 import com.josebaezx.pruebassr.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor
 public class ApplicationConfig {
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
     private final UserRepository userRepository;
+    public ApplicationConfig(UserRepository userRepository) {
+        logger.info("( ) ->  Starting ApplicationConfig constructor");
+        this.userRepository = userRepository;
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
