@@ -10,19 +10,20 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService{
     @Value("${jwt.token.expires}")
-    private final int MINUTOS;
+    private int MINUTOS;
     @Value("${jwt.secret.key}")
-    private final String SECRET_KEY;
+    private String SECRET_KEY;
 
     @Override
     public String getToken(User user) {
-        return null;
+        return createToken(new HashMap<>(), user);
     }
 
     @Override
