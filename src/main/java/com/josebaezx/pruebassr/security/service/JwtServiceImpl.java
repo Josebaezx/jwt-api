@@ -1,6 +1,7 @@
 package com.josebaezx.pruebassr.security.service;
 
 import com.josebaezx.pruebassr.security.model.entity.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -8,10 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -30,17 +32,52 @@ public class JwtServiceImpl implements JwtService{
     public String createToken(Map<String, Object> extraClaim, User user) {
         return Jwts.builder()
                 .claims(extraClaim)
-                .subject(user.getUsername())
+                .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1_000 * 60 * MINUTOS))
+                .expiration(new Date(System.currentTimeMillis() + 1_000 * 60 * 5))
                 .signWith(getKey())
                 .compact();
 
     }
 
-    private Key getKey() {
+    public SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    @Override
+    public String getEmailFromToken(String token) {
+        return getClaim(token, Claims::getSubject);
+    }
+
+    @Override
+    public boolean isTokenValid(String token, User userDetails) {
+        if(userDetails == null){
+            return false;
+        }
+        final String email = getEmailFromToken(token);
+        return email.equals(userDetails.getEmail()) && !isTokenExpired(token);
+    }
+
+    private Claims getAllClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    public <T> T getClaim(String token, Function<Claims, T> claimResolver) {
+        final Claims claims = getAllClaims(token);
+        return claimResolver.apply(claims);
+    }
+
+    private Date getExpirationToken(String token){
+        return getClaim(token, Claims::getExpiration);
+    }
+
+    private boolean isTokenExpired(String token){
+        return getExpirationToken(token).before(new Date());
+
+    }
 }
