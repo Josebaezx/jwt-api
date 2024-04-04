@@ -27,7 +27,6 @@ import java.util.Optional;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final UserRepository userRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String token = getTokenFromRequest(request);
@@ -40,12 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         email = jwtService.getEmailFromToken(token);
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Optional<User> userDetails = userRepository.findByEmail(email);
-            if(jwtService.isTokenValid(token, userDetails.get())) {
+            User userDetails = (User) userDetailsService.loadUserByUsername(email);
+            if(jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.get().getAuthorities()
+                        userDetails.getAuthorities()
                 );
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
