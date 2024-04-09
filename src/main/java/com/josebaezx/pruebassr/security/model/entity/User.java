@@ -2,7 +2,6 @@ package com.josebaezx.pruebassr.security.model.entity;
 
 import com.josebaezx.pruebassr.security.model.dto.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
